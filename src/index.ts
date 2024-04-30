@@ -11,11 +11,11 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-	
+
 /* ----- ROUTES ----- */
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+  res.send("Help, I am trapped inside this server");
 });
 
 
