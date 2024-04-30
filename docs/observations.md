@@ -31,12 +31,17 @@ Lol, link doesn't work so I found some other resources on building an API. They'
 #### Haven't Tried Yet
 
 - Medium
-  - [Article 4](https://codewithantonio.medium.com/build-your-rest-api-with-node-express-typescript-mongodb-2ceb8970adf1)
-  - [Article 4](https://javascript.plainenglish.io/api-server-setup-with-express-js-mongodb-and-typescript-part-1-bea7e4f5b526)
+  - [Article 5](https://codewithantonio.medium.com/build-your-rest-api-with-node-express-typescript-mongodb-2ceb8970adf1)
 - Code Magazine Series
   - [Part 1](https://www.codemag.com/Article/2305031/Building-Web-APIs-Using-Node.js-and-Express-Part-1)
   - [Part 2](https://www.codemag.com/Article/2307021/Building-Web-APIs-Using-Node.js-and-Express-Part-2)
   - [Part 3](https://www.codemag.com/Article/2309031/Building-Web-APIs-Using-Node.js-and-Express-Part-3)
+
+#### Trying Now
+
+- Medium
+  - [Article 4](https://javascript.plainenglish.io/api-server-setup-with-express-js-mongodb-and-typescript-part-1-bea7e4f5b526)
+    - Fine so far, though the setup contradicts some of what we did earlier so you have to be confident enough to not just type everything he does
 
 #### GET IN THE SEA
 
@@ -51,5 +56,3 @@ Lol, link doesn't work so I found some other resources on building an API. They'
     - Writer isn't a native English speaker, probably fine but not great for uncertain learners
   - [~~Article 3~~](https://blog.bitsrc.io/understanding-a-restful-api-using-node-js-and-typescript-6f9cede6b579)
     - Just not feeling it and don't have all day
-
-### 
