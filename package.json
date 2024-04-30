@@ -2,7 +2,7 @@
   "name": "ai-learning-tool",
   "version": "1.0.0",
   "description": "- [Project Overview](/docs/brief.md)",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "directories": {
     "doc": "docs"
   },
