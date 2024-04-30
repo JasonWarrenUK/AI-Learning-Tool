@@ -30,8 +30,6 @@ Lol, link doesn't work so I found some other resources on building an API. They'
 
 #### Haven't Tried Yet
 
-- Medium
-  - [Article 5](https://codewithantonio.medium.com/build-your-rest-api-with-node-express-typescript-mongodb-2ceb8970adf1)
 - Code Magazine Series
   - [Part 1](https://www.codemag.com/Article/2305031/Building-Web-APIs-Using-Node.js-and-Express-Part-1)
   - [Part 2](https://www.codemag.com/Article/2307021/Building-Web-APIs-Using-Node.js-and-Express-Part-2)
@@ -39,9 +37,12 @@ Lol, link doesn't work so I found some other resources on building an API. They'
 
 #### Trying Now
 
+#### Shelved
+
 - Medium
-  - [Article 4](https://javascript.plainenglish.io/api-server-setup-with-express-js-mongodb-and-typescript-part-1-bea7e4f5b526)
+  - [Medium Article 4](https://javascript.plainenglish.io/api-server-setup-with-express-js-mongodb-and-typescript-part-1-bea7e4f5b526)
     - Fine so far, though the setup contradicts some of what we did earlier so you have to be confident enough to not just type everything he does
+    - Part 3 pivots to MongoDB so I'm gonna leave it for now
 
 #### GET IN THE SEA
 
@@ -50,9 +51,11 @@ Lol, link doesn't work so I found some other resources on building an API. They'
   - Ugh I think this might make me clone their repo in order to do this. I'll see how far I get
   - Oh bollocks this is all vanilla JS, fuck this
 - Medium
-  - [~~Article 1~~](https://medium.com/@siddharthmakadiya/building-a-sample-api-using-node-js-and-express-d7d8f66fb419)
+  - [~~Medium Article 1~~](https://medium.com/@siddharthmakadiya/building-a-sample-api-using-node-js-and-express-d7d8f66fb419)
     - Vanilla JS only
-  - [~~Article 2~~](https://wahyu-ehs.medium.com/rest-api-with-express-js-and-typescript-f702840e3e98)
+  - [~~Medium Article 2~~](https://wahyu-ehs.medium.com/rest-api-with-express-js-and-typescript-f702840e3e98)
     - Writer isn't a native English speaker, probably fine but not great for uncertain learners
-  - [~~Article 3~~](https://blog.bitsrc.io/understanding-a-restful-api-using-node-js-and-typescript-6f9cede6b579)
+  - [~~Medium Article 3~~](https://blog.bitsrc.io/understanding-a-restful-api-using-node-js-and-typescript-6f9cede6b579)
     - Just not feeling it and don't have all day
+  - [~~Medium Article 5~~](https://codewithantonio.medium.com/build-your-rest-api-with-node-express-typescript-mongodb-2ceb8970adf1)
+    - It's a video, which can fucking do one
