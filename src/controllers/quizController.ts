@@ -6,8 +6,14 @@ function getHello(req: Request, res: Response, next: NextFunction) {
 }
 
 function getQuiz(req: Request, res: Response, next: NextFunction) {
-	res.status(206).json(quizContent);
-	// could also .send(quizContent);
+	let questions = quizContent;
+
+	res.json({
+		"status": 200,
+		"statusText": "OK",
+		"message": "Here's the questions",
+		"data": questions
+	});
 }
 
 export default { getHello, getQuiz };
