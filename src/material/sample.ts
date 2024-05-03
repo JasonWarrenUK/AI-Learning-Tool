@@ -1,4 +1,4 @@
-{
+let quiz : object = {
   "questions": [
     {
       "id": 1,
@@ -452,3 +452,5 @@
     }
   ]
 }
+
+export default { quiz };
