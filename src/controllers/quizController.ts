@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import quizContent from '../repositories/sample';
+import quizContent from '../repositories/questions';
 
 function getHello(req: Request, res: Response, next: NextFunction) {
   res.send('Help, I am trapped three folders deep in a quiz');
