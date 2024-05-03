@@ -3,7 +3,10 @@ import quizController from '../controllers/quizController';
 
 const router = express.Router();
 
-router.get('/', quizController.getHello);
-router.get('/quiz', quizController.getQuiz);
+router.get('/', quizController.getQuiz);
+router.get('/awake', quizController.getHello);
+router.get('/object', quizController.getData);
+
+// router.post('/answer', quizController.answer);
 
 export default router;
