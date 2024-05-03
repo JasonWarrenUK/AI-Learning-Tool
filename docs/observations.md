@@ -2,9 +2,10 @@
 
 Things I noticed while working on it
 
-## Setup & Installation
+## Starting Out
 
-- Took a while to know where to start. Point the learner towards learning as a step-by-step
+- Took a while to know where to start. Point the learner towards `Learnings` as a step-by-step
+- In `Project`, the acceptance criteria indicates following React principles. I'm literally still not sure exactly what React is, so I'm assuming the Foundation course now includes it?
 
 ### Resource: Setting Up Typescript & Express
 
