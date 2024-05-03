@@ -6,7 +6,8 @@ function getHello(req: Request, res: Response, next: NextFunction) {
 }
 
 function getQuiz(req: Request, res: Response, next: NextFunction) {
-	res.send(quizContent);
+	res.status(206).json(quizContent);
+	// could also .send(quizContent);
 }
 
 export default { getHello, getQuiz };
