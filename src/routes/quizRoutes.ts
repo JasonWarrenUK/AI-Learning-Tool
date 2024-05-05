@@ -7,6 +7,6 @@ router.get('/', quizController.getQuiz);
 router.get('/awake', quizController.getHello);
 router.get('/object', quizController.getData);
 
-// router.post('/answer', quizController.answer);
+router.post('/answer', quizController.answer);
 
 export default router;

@@ -6,6 +6,5 @@ const router = express.Router();
 
 router.use('/', quizRoutes);
 router.use('/api/v1/movies', movieRoutes);
-router.use('/api/v1/quiz', quizRoutes);
 
 export default router;

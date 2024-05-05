@@ -35,7 +35,8 @@ function getQuiz(req: Request, res: Response, next: NextFunction) {
   res.send(htmlResponse);
 }
 
-/* function answer (req: Request, res: Response) {
+function answer(req: Request, res: Response) {
+	let quizContent: QuizContent = quizData as QuizContent;
   const userAnswer = req.body.option;
   const correctAnswer = quizContent.quiz.questions[0].answer;
 
@@ -44,9 +45,9 @@ function getQuiz(req: Request, res: Response, next: NextFunction) {
   } else {
     res.send("Incorrect! The correct answer was " + correctAnswer);
   }
-}; */
+};
 
 export default {
 	getHello, getData, getQuiz,
-	// answer
+	answer
 };
