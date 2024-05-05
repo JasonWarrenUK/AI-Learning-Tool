@@ -1,5 +1,5 @@
 import { QuizContent, UserQuizState } from '../interface';
-import { shuffleArray } from './helpers'; // Assuming you have or will implement a utility to shuffle arrays
+import { shuffleArray } from './helpers';
 
 export function initializeQuizState(quizContent: QuizContent): UserQuizState {
   const questions = quizContent.quiz.questions.map(question => ({
@@ -17,6 +17,19 @@ export function initializeQuizState(quizContent: QuizContent): UserQuizState {
     completedQuestions: 0,
     results: []
   };
+}
+
+export function selectRandomQuestion(userQuizState: UserQuizState): void {
+  if (!userQuizState.questions.find(q => !q.asked)) {
+    shuffleArray(userQuizState.questions);  // Re-shuffle if all questions have been asked
+    userQuizState.questions.forEach(q => q.asked = false);  // Reset 'asked' status
+  }
+
+  const nextUnasked = userQuizState.questions.find(q => !q.asked);
+  if (nextUnasked) {
+    nextUnasked.asked = true;
+    userQuizState.currentQuestionIndex = userQuizState.questions.indexOf(nextUnasked);
+  }
 }
 
 export function getCurrentQuestion(userQuizState: UserQuizState) {

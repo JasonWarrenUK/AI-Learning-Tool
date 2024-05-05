@@ -17,20 +17,24 @@ export interface QuizContent {
   quiz: Quiz;
 }
 
-interface QuestionState extends Question {
+export interface QuestionState extends Question {
   asked: boolean;
   attempts: number;
   attemptedAnswers: Set<string>;
 }
 
-interface UserQuizState {
+export interface UserQuizState {
   questions: QuestionState[];
   currentQuestionIndex: number | null;
   completedQuestions: number;
-  results: { question: string; userAnswers: string[]; attempts: number }[];
+  results: { 
+		question: string;
+		userAnswers: string[];
+		attempts: number
+	}[];
 }
 
 export interface QuizSession {
   userQuizState: UserQuizState;
-  sessionId: string;  // Ideally, a UUID generated for each session
+  sessionId: string;
 }

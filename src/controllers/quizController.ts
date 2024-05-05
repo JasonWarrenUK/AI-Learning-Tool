@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { QuizSession, QuizContent } from '../interface';
-import quizData from '../repositories/questions';
+import { QuizSession, QuizContent, UserQuizState } from '../interface';
 import { v4 as uuidv4 } from 'uuid';
+import quizData from '../repositories/questions';
+import { initializeQuizState, selectRandomQuestion, getCurrentQuestion, processAnswer } from '../utils/quizManager';
 
 function startQuiz(req: Request, res: Response) {
   const sessionId = uuidv4();
@@ -35,7 +36,6 @@ function getData(req: Request, res: Response, next: NextFunction) {
 	let firstQuestion = quizContent.quiz.questions[0];
   let htmlResponse = `<h1>${firstQuestion.question}</h1>`;
 
-  // Adding a form for the options
   htmlResponse += `<form action="/answer" method="post">`;
   
 	firstQuestion.options.forEach(option => {
@@ -62,6 +62,20 @@ function getQuiz(req: Request, res: Response) {
   }
 
   renderQuestion(res, question);
+}
+
+function renderQuestion(res: Response, question) {
+  let htmlResponse = `<h1>${question.question}</h1><form action="/answer" method="post">`;
+
+  question.options.forEach(option => {
+    if (!question.attemptedAnswers.has(option)) {  // Check if the option hasn't been attempted
+      htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
+                       <label for="${option}">${option}</label><br>`;
+    }
+  });
+
+  htmlResponse += `<input type="submit" value="Submit"></form>`;
+  res.send(htmlResponse);
 }
 
 /* function answer(req: Request, res: Response) {
@@ -102,7 +116,6 @@ function showResults(res: Response, userQuizState: UserQuizState) {
     averageAttempts: averageAttempts.toFixed(2)
   });
 }
-
 
 export default {
 	getHello, getData, getQuiz,
