@@ -1,34 +1,22 @@
 {
+	"include": [
+    "src/types/*.d.ts"
+  ],
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig to read more about this file */
-
-    /* Language and Environment */
-    "target": "es2016", // emitted JavaScript
-
-    /* Modules */
-    "module": "commonjs",
+    "target": "es2016",
+		"module": "commonjs",
 		"moduleResolution": "node",
-    "typeRoots": ["./node_modules/@types"],
-
-    /* JavaScript Support */
+    "typeRoots": [
+			"./node_modules/@types",
+			"./src/types"
+		],
     "allowJs": true,
     "checkJs": true,
     "maxNodeModuleJsDepth": 1,
-
-    /* Emit */
-    "outDir": "./dist", // output folder
-    "esModuleInterop": true, // Emit additional JS to support importing CommonJS modules.
-    "forceConsistentCasingInFileNames": true, // Ensure correct casing in imports.
-
-    /* Type Checking */
-    "strict": true, // Enable all strict type-checking options.
-
-    /* Completeness */
-    "skipLibCheck": true, // Skip type checking all .d.ts files.
-  },
-
-  "include": [
-    "src/**/*.ts",
-    "src/types/*.d.ts"
-  ]
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
 }

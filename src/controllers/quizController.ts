@@ -5,18 +5,16 @@ import quizData from '../repositories/questions';
 import { initializeQuizState, selectRandomQuestion, getCurrentQuestion, processAnswer } from '../utils/quizManager';
 
 function startQuiz(req: Request, res: Response) {
-  let quizContent: QuizContent = { ...quizData };  // Deep copy to manage state locally
+  let quizContent: QuizContent = { ...quizData };
   let userQuizState: UserQuizState = initializeQuizState(quizContent);
-  
+
   // Initialize the quiz session state
   req.session.userQuizState = userQuizState;
-  req.session.save((err) => {
+  req.session.save(err => {
     if (err) {
-      console.error('Session save error:', err);
-      return res.status(500).send('Failed to start the quiz due to session error.');
+      return res.status(500).send('Failed to initialize the quiz session.');
     }
-    // Redirect to the quiz route that uses session data
-    res.redirect('/quiz');  // Assuming this route uses the session state
+    res.redirect('/quiz');
   });
 }
 
@@ -65,7 +63,7 @@ function renderQuestion(res: Response, question: QuestionState) {
 
 function answer(req: Request, res: Response) {
   if (!req.session.userQuizState) {
-    return res.status(404).send("Session not found or quiz not started.");
+    return res.status(404).send("Quiz session not found.");
   }
 
   const { option } = req.body;
@@ -75,7 +73,7 @@ function answer(req: Request, res: Response) {
     return showResults(res, req.session.userQuizState);
   }
 
-  res.redirect('/');
+  res.redirect('/quiz');
 }
 
 function showResults(res: Response, userQuizState: UserQuizState) {
