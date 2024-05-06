@@ -7,6 +7,8 @@
 
     /* Modules */
     "module": "commonjs",
+		"moduleResolution": "node",
+    "typeRoots": ["./node_modules/@types"],
 
     /* JavaScript Support */
     "allowJs": true,

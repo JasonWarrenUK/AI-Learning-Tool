@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { QuizSession, QuizContent, UserQuizState } from '../interface';
+import { UserQuizState, QuestionState, QuizSession, QuizContent } from '../interface';
 import { v4 as uuidv4 } from 'uuid';
 import quizData from '../repositories/questions';
 import { initializeQuizState, selectRandomQuestion, getCurrentQuestion, processAnswer } from '../utils/quizManager';
@@ -64,7 +64,7 @@ function getQuiz(req: Request, res: Response) {
   renderQuestion(res, question);
 }
 
-function renderQuestion(res: Response, question) {
+function renderQuestion(res: Response, question: QuestionState) {
   let htmlResponse = `<h1>${question.question}</h1><form action="/answer" method="post">`;
 
   question.options.forEach(option => {
