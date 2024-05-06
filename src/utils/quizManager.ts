@@ -1,4 +1,4 @@
-import { QuizContent, UserQuizState } from '../interface';
+import { QuizContent, QuizSession, UserQuizState } from '../interface';
 import { shuffleArray } from './helpers';
 
 export function initializeQuizState(quizContent: QuizContent): UserQuizState {
@@ -19,10 +19,17 @@ export function initializeQuizState(quizContent: QuizContent): UserQuizState {
   };
 }
 
-export function selectRandomQuestion(userQuizState: UserQuizState): void {
+export function selectRandomQuestion(sessionId: string): void {
+  const session = sessionStorage[sessionId] as QuizSession;  // Assuming sessionStorage is correctly typed
+  if (!session) {
+    console.error("Session not found for ID:", sessionId);
+    return;
+  }
+  const userQuizState = session.userQuizState;
+
   if (!userQuizState.questions.find(q => !q.asked)) {
-    shuffleArray(userQuizState.questions);  // Re-shuffle if all questions have been asked
-    userQuizState.questions.forEach(q => q.asked = false);  // Reset 'asked' status
+    shuffleArray(userQuizState.questions);
+    userQuizState.questions.forEach(q => q.asked = false);
   }
 
   const nextUnasked = userQuizState.questions.find(q => !q.asked);
@@ -74,3 +81,16 @@ export function processAnswer(userQuizState: UserQuizState, userAnswer: string) 
     }
   }
 }
+
+/* export function selectRandomQuestion(userQuizState: UserQuizState): void {
+  if (!userQuizState.questions.find(q => !q.asked)) {
+    shuffleArray(userQuizState.questions);  // Re-shuffle if all questions have been asked
+    userQuizState.questions.forEach(q => q.asked = false);  // Reset 'asked' status
+  }
+
+  const nextUnasked = userQuizState.questions.find(q => !q.asked);
+  if (nextUnasked) {
+    nextUnasked.asked = true;
+    userQuizState.currentQuestionIndex = userQuizState.questions.indexOf(nextUnasked);
+  }
+} */

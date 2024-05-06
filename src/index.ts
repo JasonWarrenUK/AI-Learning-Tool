@@ -1,28 +1,28 @@
-/* ----- IMPORTS ----- */
-
 import express, { Express, Request, Response } from "express";
+import session from "express-session";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import routes from "./routes";
-
-
-/* ----- SETUP ----- */
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'default_secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Only set secure to true if using HTTPS
+    maxAge: 1000 * 60 * 60 * 24 // 24 hours
+  }
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-/* ----- ROUTES ----- */
-
 app.use(routes);
-
-
-/* ----- APP ----- */
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
