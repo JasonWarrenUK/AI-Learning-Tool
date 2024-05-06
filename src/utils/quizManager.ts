@@ -42,17 +42,27 @@ export function getCurrentQuestion(userQuizState: UserQuizState) {
     }
     return null;  // No more questions available
   }
-  return userQuizState.questions[userQuizState.currentQuestionIndex];
+
+  if (userQuizState.currentQuestionIndex !== null) {
+    return userQuizState.questions[userQuizState.currentQuestionIndex];
+  }
+
+  return null;  // Return null if currentQuestionIndex is somehow null here
 }
 
 export function processAnswer(userQuizState: UserQuizState, userAnswer: string) {
+  if (userQuizState.currentQuestionIndex === null) {
+    console.error("No current question selected for answering.");
+    return;
+  }
+
   const currentQuestion = userQuizState.questions[userQuizState.currentQuestionIndex];
   
   if (currentQuestion.answer === userAnswer) {
     userQuizState.completedQuestions++;
     userQuizState.results.push({
       question: currentQuestion.question,
-      userAnswers: Array.from(currentQuestion.attemptedAnswers).concat(userAnswer),
+      userAnswers: Array.from(currentQuestion.attemptedAnswers, item => item as string).concat(userAnswer),
       attempts: currentQuestion.attempts + 1
     });
     userQuizState.currentQuestionIndex = null; // Reset for new question
