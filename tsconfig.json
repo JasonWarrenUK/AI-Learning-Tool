@@ -1,6 +1,6 @@
 {
 	"include": [
-    "src/types/*.d.ts"
+    "src/**/*"
   ],
   "compilerOptions": {
     "target": "es2016",

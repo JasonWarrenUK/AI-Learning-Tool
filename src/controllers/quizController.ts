@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import 'src/types/express-session';
 import { UserQuizState, QuestionState, QuizSession, QuizContent } from '../interface';
 import { v4 as uuidv4 } from 'uuid';
 import quizData from '../repositories/questions';
@@ -34,6 +35,15 @@ function getData(req: Request, res: Response, next: NextFunction) {
 }
 
 function getQuiz(req: Request, res: Response) {
+  if (!req.session.userQuizState) {
+    console.log("Session data is missing!");
+    return res.status(404).send("Session not found.");
+  }
+  console.log("Session data is available:", req.session.userQuizState);
+  res.send("Session is okay!");
+}
+
+/* function getQuiz(req: Request, res: Response) {
   if (!req.session.quizState) {
     return res.status(404).send("Session not found or quiz not started.");
   }
@@ -45,7 +55,7 @@ function getQuiz(req: Request, res: Response) {
   }
 
   renderQuestion(res, question);
-}
+} */
 
 function renderQuestion(res: Response, question: QuestionState) {
   let htmlResponse = `<h1>${question.question}</h1><form action="/answer" method="post">`;
