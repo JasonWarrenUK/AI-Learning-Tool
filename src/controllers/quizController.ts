@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import 'src/types/express-session';
+import './src/types/express-session';
 import { UserQuizState, QuestionState, QuizSession, QuizContent } from '../interface';
 import { v4 as uuidv4 } from 'uuid';
 import quizData from '../repositories/questions';
