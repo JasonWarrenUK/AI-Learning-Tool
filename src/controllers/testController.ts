@@ -29,11 +29,7 @@ export function getData(req: Request, res: Response, next: NextFunction) {
 export function getQuestionById(req: Request, res: Response, next: NextFunction) {
 	fs.readFile( __dirname + "/../repositories/questions.json", 'utf-8', function (err, data) {
 		const id = parseInt(req.params.id);
-		const questionsObject = JSON.parse(data);
-		const questions = questionsObject["questions"];
-		const question = questions[id - 1];
-		const questionText = question["question"];
+		const questionText = JSON.parse(data)["questions"][id-1]["question"];
 		res.end(JSON.stringify(questionText));
-		// const question = data[];
 	})
 }
