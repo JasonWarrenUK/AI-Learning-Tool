@@ -6,6 +6,6 @@ const router = express.Router();
 router.get('/', testController.getList);
 router.get('/hello', testController.getHello);
 router.get('/data', testController.getData);
-router.get('/question', testController.getQuestionById);
+router.get('/:id', testController.getQuestionById);
 
 export default router;
