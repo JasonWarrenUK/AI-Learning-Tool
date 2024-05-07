@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import quizData from '../repositories/questions';
 import { QuizContent } from '../interface';
+import * as fs from 'fs';
+
+function getList(req: Request, res: Response, next: NextFunction) {
+	fs.readFile( __dirname + "/../repositories/questions.json", 'utf8', function (err, data) {
+		res.end( data );
+ });
+}
 
 function getHello(req: Request, res: Response, next: NextFunction) {
   res.send('Help, I am trapped three folders deep in a quiz');
@@ -46,7 +53,4 @@ function getQuiz(req: Request, res: Response, next: NextFunction) {
   }
 }; */
 
-export default {
-	getHello, getData, getQuiz,
-	// answer
-};
+export default { getData, getHello, getList, getQuiz };
