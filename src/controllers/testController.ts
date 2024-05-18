@@ -38,8 +38,17 @@ export function getQuestionById(req: Request, res: Response, next: NextFunction)
 
 export function getRandomQuestion(req: Request, res: Response, next: NextFunction) {
 	fs.readFile( __dirname + "/../repositories/questions.json", 'utf-8', function (err, data) {
-		const id = randomInt(1, questionsAll);
-		const questionText = JSON.parse(data)["questions"][id-1]["question"];
+		if (err) {
+      return next(err);
+    }
+    
+    const questions = JSON.parse(data)["questions"];
+    const id = randomInt(1, questions.length); // Ensure the max is within array bounds
+    const questionText = questions[id - 1]?.question; // Use optional chaining to avoid undefined issues
+
+    if (!questionText) {
+      return res.status(404).json({ error: "Question not found" });
+    }
 
 		questionsSeen.push(id);
 
