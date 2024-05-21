@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import quizData from '../repositories/questions.json';
-import { QuizContent } from '../interface';
-import * as fs from 'fs';
+import { randomInt } from '../utils/numbers';
 
 /* Quiz Functions */
 
@@ -24,19 +23,17 @@ function getRandom(req: Request, res: Response, next: NextFunction){
   const quiz = quizData;
   const qMax = quiz.questions.length - 1;
 
-  console.log(`Max Q: ${qMax}`);
+	const qChosen = quiz.questions[randomInt(0, qMax)];
 
-	/* let firstQuestion = quiz.questions[0];
-
-  let htmlResponse = `<h1>${firstQuestion.question}</h1>`;
+  let htmlResponse = `<h1>${qChosen.question}</h1>`;
   htmlResponse += `<form action="/answer" method="post">`;
-	firstQuestion.options.forEach(option => {
+	qChosen.options.forEach(option => {
     htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
                      <label for="${option}">${option}</label><br>`;
   });
-  htmlResponse += `<input type="submit" value="Submit"></form>`; */
+  htmlResponse += `<input type="submit" value="Submit"></form>`;
 
-  res.send(`getRandom finished`);
+  res.send(htmlResponse);
 }
 
 /*
