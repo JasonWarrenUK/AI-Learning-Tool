@@ -22,11 +22,13 @@ function getDefault(req: Request, res: Response, next: NextFunction) {
 
 function getRandom(req: Request, res: Response, next: NextFunction) {
   const quiz = quizData;
-  const qMax = quiz.questions.length - 1;
+  const qAll: number = quiz.questions.length;
+  const qMax: number = qAll - 1;
   let qId: number = -1;
   let htmlResponse: string = "";
 
-  htmlResponse += `<pre>Seen: ${qSeen}</pre>`;
+  htmlResponse += `<pre>Remaining: ${qAll - qSeen.length}</pre>`;
+  htmlResponse += `<pre>Questions Seen: ${qSeen}</pre>`;
 
   if (qSeen.length == qMax + 1) {
     htmlResponse += `<pre>Fuck you, no more questions</pre>`;
@@ -44,9 +46,11 @@ function getRandom(req: Request, res: Response, next: NextFunction) {
       htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
                       <label for="${option}">${option}</label>`;
     });
-    htmlResponse += `<input type="submit" value="Submit"></form>`;
-    htmlResponse += `<pre>Seen: ${qSeen}</pre>`;
+    htmlResponse += `</form>`
   }
+
+  htmlResponse += `<pre>Remaining: ${qAll - qSeen.length}</pre>`;
+  htmlResponse += `<pre>Questions Seen: ${qSeen}</pre>`;
 
   res.send(htmlResponse);
 }
