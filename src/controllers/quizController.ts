@@ -22,14 +22,13 @@ function getDefault(req: Request, res: Response, next: NextFunction){
 function getRandom(req: Request, res: Response, next: NextFunction){
   const quiz = quizData;
   const qMax = quiz.questions.length - 1;
-
 	const qChosen = quiz.questions[randomInt(0, qMax)];
 
   let htmlResponse = `<h1>${qChosen.question}</h1>`;
   htmlResponse += `<form action="/answer" method="post">`;
 	qChosen.options.forEach(option => {
     htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
-                     <label for="${option}">${option}</label><br>`;
+                     <label for="${option}">${option}</label>`;
   });
   htmlResponse += `<input type="submit" value="Submit"></form>`;
 
