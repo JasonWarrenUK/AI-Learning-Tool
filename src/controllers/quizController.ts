@@ -4,8 +4,8 @@ import { QuizContent } from '../interface';
 import * as fs from 'fs';
 
 function getQuiz(req: Request, res: Response, next: NextFunction) {
-	let quizContent: QuizContent = quizData as QuizContent;
-	let firstQuestion = quizContent.quiz.questions[0];
+	let quizContent/* : QuizContent */ = quizData/*  as QuizContent */;
+	let firstQuestion = quizContent.questions[0];
   let htmlResponse = `<h1>${firstQuestion.question}</h1>`;
 
   // Adding a form for the options
