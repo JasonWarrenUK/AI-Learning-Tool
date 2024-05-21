@@ -12,16 +12,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(routes);
 
-
-/* ----- ROUTES ----- */
-
-/* app.get("/", (req: Request, res: Response) => {
-  res.send("Help, I am trapped inside this server");
-}); */
-
-
-/* ----- APP ----- */
-
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
