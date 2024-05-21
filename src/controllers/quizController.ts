@@ -3,7 +3,7 @@ import quizData from '../repositories/questions.json';
 import { QuizContent } from '../interface';
 import * as fs from 'fs';
 
-function getQuiz(req: Request, res: Response, next: NextFunction) {
+function getDefault(req: Request, res: Response, next: NextFunction) {
 	let quizContent/* : QuizContent */ = quizData/*  as QuizContent */;
 	let firstQuestion = quizContent.questions[0];
   let htmlResponse = `<h1>${firstQuestion.question}</h1>`;
@@ -21,6 +21,8 @@ function getQuiz(req: Request, res: Response, next: NextFunction) {
   res.send(htmlResponse);
 }
 
+function getRandom(){}
+
 /* function answer (req: Request, res: Response) {
   const userAnswer = req.body.option;
   const correctAnswer = quizContent.quiz.questions[0].answer;
@@ -32,4 +34,4 @@ function getQuiz(req: Request, res: Response, next: NextFunction) {
   }
 }; */
 
-export default { /* answer, */ getQuiz };
+export default { /* answer, */ getDefault, getRandom };
