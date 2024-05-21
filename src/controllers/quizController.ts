@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import quizData from '../repositories/questions';
+import quizData from '../repositories/questions.json';
 import { QuizContent } from '../interface';
 import * as fs from 'fs';
 

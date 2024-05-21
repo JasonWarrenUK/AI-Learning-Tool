@@ -13,6 +13,9 @@
     "checkJs": true,
     "maxNodeModuleJsDepth": 1,
 
+    /* JSON Support */
+    "resolveJsonModule": true,
+
     /* Emit */
     "outDir": "./dist", // output folder
     "esModuleInterop": true, // Emit additional JS to support importing CommonJS modules.
