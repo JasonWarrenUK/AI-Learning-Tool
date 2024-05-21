@@ -1,4 +1,1 @@
-const qSeenNum: number[] = [];
-const qSeenStr: string[] = [];
-
-export default { qSeenNum, qSeenStr };
+export const qSeen: number[] = [];

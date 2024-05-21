@@ -1,16 +1,17 @@
-import { Request, Response, NextFunction } from 'express';
-import quizData from '../repositories/questions.json';
-import { randomInt } from '../utils/numbers';
+import { Request, Response, NextFunction } from "express";
+import quizData from "../repositories/questions.json";
+import { randomInt } from "../utils/numbers";
+import { qSeen } from "../states/quizState";
 
 /* Quiz Functions */
 
-function getDefault(req: Request, res: Response, next: NextFunction){
-	const quizContent= quizData;
+function getDefault(req: Request, res: Response, next: NextFunction) {
+  const quizContent = quizData;
   const firstQuestion = quizContent.questions[0];
-  
+
   let htmlResponse = `<h1>${firstQuestion.question}</h1>`;
   htmlResponse += `<form action="/answer" method="post">`;
-	firstQuestion.options.forEach(option => {
+  firstQuestion.options.forEach((option) => {
     htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
                      <label for="${option}">${option}</label><br>`;
   });
@@ -19,18 +20,33 @@ function getDefault(req: Request, res: Response, next: NextFunction){
   res.send(htmlResponse);
 }
 
-function getRandom(req: Request, res: Response, next: NextFunction){
+function getRandom(req: Request, res: Response, next: NextFunction) {
   const quiz = quizData;
   const qMax = quiz.questions.length - 1;
-	const qChosen = quiz.questions[randomInt(0, qMax)];
+  let qId: number = -1;
+  let htmlResponse: string = "";
 
-  let htmlResponse = `<h1>${qChosen.question}</h1>`;
-  htmlResponse += `<form action="/answer" method="post">`;
-	qChosen.options.forEach(option => {
-    htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
-                     <label for="${option}">${option}</label>`;
-  });
-  htmlResponse += `<input type="submit" value="Submit"></form>`;
+  htmlResponse += `<pre>Seen: ${qSeen}</pre>`;
+
+  if (qSeen.length == qMax + 1) {
+    htmlResponse += `<pre>Fuck you, no more questions</pre>`;
+  } else {
+    while (qSeen.includes(qId) || qId == -1) {
+      qId = randomInt(0, qMax);
+    }
+
+    qSeen.push(qId);
+    const qChosen = quiz.questions[qId];
+
+    htmlResponse += `<h1>${qChosen.question}</h1>`;
+    htmlResponse += `<form action="/answer" method="post">`;
+    qChosen.options.forEach((option) => {
+      htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
+                      <label for="${option}">${option}</label>`;
+    });
+    htmlResponse += `<input type="submit" value="Submit"></form>`;
+    htmlResponse += `<pre>Seen: ${qSeen}</pre>`;
+  }
 
   res.send(htmlResponse);
 }
