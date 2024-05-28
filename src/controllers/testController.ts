@@ -1,23 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import quizData from '../repositories/questions.json';
-import { randomInt } from '../utils/numbers';
-// import { QuizContent } from '../interface';
+import { getRandom } from './quizController';
+import { qAll, qMax, qSeen } from "../states/quizState";
 import * as fs from 'fs';
 
-let questionsSeen = [];
-const questionsAll = 30;
-
-export function getList(req: Request, res: Response, next: NextFunction) {
+/* export function getList(req: Request, res: Response, next: NextFunction) {
 	fs.readFile( __dirname + "/../repositories/questions.json", 'utf8', function (err, data) {
 		res.end( data );
  });
-}
+} */
 
-export function getHello(req: Request, res: Response, next: NextFunction) {
+/* export function getHello(req: Request, res: Response, next: NextFunction) {
   res.send('Help, I am trapped three folders deep in a quiz');
-}
+} */
 
-export function getData(req: Request, res: Response, next: NextFunction) {
+/* export function getData(req: Request, res: Response, next: NextFunction) {
 	let questions = quizData;
 
 	res.json({
@@ -26,12 +23,18 @@ export function getData(req: Request, res: Response, next: NextFunction) {
 		"message": "Here's the questions",
 		"data": questions
 	});
-}
+} */
 
-export function getQuestionById(req: Request, res: Response, next: NextFunction) {
+/* export function getQuestionById(req: Request, res: Response, next: NextFunction) {
 	fs.readFile( __dirname + "/../repositories/questions.json", 'utf-8', function (err, data) {
 		const id = parseInt(req.params.id);
 		const questionText = JSON.parse(data)["questions"][id-1]["question"];
 		res.end(JSON.stringify(questionText));
 	})
+} */
+
+export function getAllQuestions(req: Request, res: Response, next: NextFunction) {
+	for (let i = 0; i <= qMax; i++) {
+		getRandom;
+	}
 }
