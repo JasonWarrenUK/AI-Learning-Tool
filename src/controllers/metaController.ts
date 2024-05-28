@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import * as fs from 'fs';
 
 export function index(req: Request, res: Response, next: NextFunction) {
   res.send(`

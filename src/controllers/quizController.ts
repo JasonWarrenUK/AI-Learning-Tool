@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import quizData from "../repositories/questions.json";
 import { randomInt } from "../utils/numbers";
-import { qAll, qMax, qSeen } from "../states/quizState";
+import * as quiz from "../states/quiz";
 
 /* Quiz Functions */
 
 export function stateShow(req: Request, res: Response, next: NextFunction) {
   console.group(`Show State`);
-    console.log(`qAll: ${qAll}`);
-    console.log(`qMax index: ${qMax}`);
-    console.log(`qSeen length: ${qSeen.length}`);
-    console.log(`qSeen array: ${qSeen}`);
+  console.log(`qAll: ${quiz.source.totalQuestions}`);
+  console.log(`qMax index: ${quiz.source.highestIndex}`);
+  console.log(`qSeen length: ${quiz.state.questionsSeen.length}`);
+  console.log(`qSeen array: ${quiz.state.questionsSeen}`);
   console.groupEnd();
 
   res.send();
@@ -18,13 +18,13 @@ export function stateShow(req: Request, res: Response, next: NextFunction) {
 
 export function stateReset(req: Request, res: Response, next: NextFunction) {
   console.group(`Reset State`);
-    console.log(`qSeen length: ${qSeen.length}`);
+  console.log(`qSeen length: ${quiz.state.questionsSeen.length}`);
 
-    while (qSeen.length > 0) {
-      qSeen.pop;
-    }
-    
-    console.log(`qSeen length: ${qSeen.length}`);
+  while (quiz.state.questionsSeen.length > 0) {
+    quiz.state.questionsSeen.pop;
+  }
+
+  console.log(`qSeen length: ${quiz.state.questionsSeen.length}`);
   console.groupEnd();
 
   res.send();
@@ -46,22 +46,23 @@ export function getDefault(req: Request, res: Response, next: NextFunction) {
 }
 
 export function getRandom(req: Request, res: Response, next: NextFunction) {
-  const quiz = quizData;
+  const quizJSON = quizData;
   let qId: number = -1;
   let htmlResponse: string = "";
 
-  htmlResponse += `<pre>Remaining: ${qAll - qSeen.length}</pre>`;
-  htmlResponse += `<pre>Questions Seen: ${qSeen}</pre>`;
+  htmlResponse += `<pre>Remaining: ${quiz.source.totalQuestions - quiz.state.questionsSeen.length}</pre>`;
+  htmlResponse += `<pre>Questions Seen: ${quiz.state.questionsSeen}</pre>`;
 
-  if (qSeen.length === qMax + 1) {
+  if (quiz.state.questionsSeen.length === quiz.source.highestIndex + 1) {
     htmlResponse += `<pre>Fuck you, no more questions</pre>`;
   } else {
-    while (qSeen.includes(qId) || qId === -1) {
-      qId = randomInt(0, qMax);
+    while (quiz.state.questionsSeen.includes(qId) || qId === -1) {
+      qId = randomInt(0, quiz.source.highestIndex);
     }
 
-    qSeen.push(qId);
-    const qChosen = quiz.questions[qId];
+    quiz.state.questionsSeen.push(qId);
+    quiz.state.currentQuestion = qId;
+    const qChosen = quizJSON.questions[qId];
 
     htmlResponse += `<h1>${qChosen.question}</h1>`;
     htmlResponse += `<form action="/answer" method="post">`;
@@ -69,18 +70,18 @@ export function getRandom(req: Request, res: Response, next: NextFunction) {
       htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">
                       <label for="${option}">${option}</label>`;
     });
-    htmlResponse += `</form>`
+    htmlResponse += `</form>`;
   }
 
-  htmlResponse += `<pre>Remaining: ${qAll - qSeen.length}</pre>`;
-  htmlResponse += `<pre>Questions Seen: ${qSeen}</pre>`;
+  htmlResponse += `<pre>Remaining: ${quiz.source.totalQuestions - quiz.state.questionsSeen.length}</pre>`;
+  htmlResponse += `<pre>Questions Seen: ${quiz.state.questionsSeen}</pre>`;
 
   return htmlResponse;
 }
 
 export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
   let runs = parseInt(req.params.runs);
-  
+
   let display: string = "";
   while (runs > 0) {
     display += getRandom(req, res, next);
@@ -90,15 +91,12 @@ export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
   res.send(display);
 }
 
-/*
-function answer (req: Request, res: Response) {
-  const userAnswer = req.body.option;
-  const correctAnswer = quizContent.quiz.questions[0].answer;
-
-  if (userAnswer === correctAnswer) {
-    res.send("Correct!");
-  } else {
-    res.send("Incorrect! The correct answer was " + correctAnswer);
-  }
-};
-*/
+export function answer(req: Request, res: Response) {
+  // const userAnswer = req.body.option;
+  // const correctAnswer = quizContent.quiz.questions[0].answer;
+  // if (userAnswer === correctAnswer) {
+  //   res.send("Correct!");
+  // } else {
+  //   res.send("Incorrect! The correct answer was " + correctAnswer);
+  // }
+}

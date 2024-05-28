@@ -9,6 +9,6 @@ router.get("/state", quizController.stateShow);
 
 router.get("/default", quizController.getDefault);
 router.get("/random/:runs", quizController.getRandomRuns);
-// router.post('/answer', quizController.answer);
+router.post('/answer', quizController.answer);
 
 export default router;
