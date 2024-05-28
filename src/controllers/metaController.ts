@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import quizData from '../repositories/questions';
 import * as fs from 'fs';
 
 export function index(req: Request, res: Response, next: NextFunction) {
