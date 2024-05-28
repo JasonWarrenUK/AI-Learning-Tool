@@ -1,9 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import * as fs from 'fs';
 
 export function index(req: Request, res: Response, next: NextFunction) {
-  res.send(`
-		<h1>Server Routes</h1>
+	let htmlResponse: string = ``;
+	htmlResponse += `<h1>QUIZ?</h1>`;
+	htmlResponse += `<br/>`;
+	htmlResponse += `<p><a href="/quiz/random/1">Quiz</a></p>`;
+
+	res.send(htmlResponse);
+}
+
+export function debug(req: Request, res: Response, next: NextFunction) {
+	let htmlResponse: string = ``;
+	htmlResponse += `<h1>Server Routes</h1>
 		<br/>
 		<h2>Test Routes</h2>
 		<ul>
@@ -15,8 +23,7 @@ export function index(req: Request, res: Response, next: NextFunction) {
 		</ul>
 		<br/>
 		<h2>Quiz Routes</h2>
-		<ul>
-			<li><a href=""></a></li>
-		</ul>
-	`);
+	`;
+
+	res.send(htmlResponse);
 }

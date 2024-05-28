@@ -1,8 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import quizData from '../repositories/questions.json';
-import { getRandom } from './quizController';
-import { qAll, qMax, qSeen } from "../states/quizState";
-import * as fs from 'fs';
+import { Request, Response, NextFunction } from "express";
+import { getRandom } from "./quizController";
+import * as quiz from "../states/quiz";
 
 /* export function getList(req: Request, res: Response, next: NextFunction) {
 	fs.readFile( __dirname + "/../repositories/questions.json", 'utf8', function (err, data) {
@@ -33,8 +31,12 @@ import * as fs from 'fs';
 	})
 } */
 
-export function getAllQuestions(req: Request, res: Response, next: NextFunction) {
-	for (let i = 0; i <= qMax; i++) {
-		getRandom;
-	}
+export function getAllQuestions(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  for (let i = 0; i <= quiz.source.highestIndex; i++) {
+    getRandom;
+  }
 }
