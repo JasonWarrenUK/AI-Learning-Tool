@@ -3,14 +3,21 @@ import quizData from "../repositories/questions.json";
 import { randomInt } from "../utils/numbers";
 import * as quiz from "../states/quiz";
 
-/* Quiz Functions */
+/* Dev Functions */
 
 export function stateShow(req: Request, res: Response, next: NextFunction) {
-  console.group(`Show State`);
-  console.log(`qAll: ${quiz.source.totalQuestions}`);
-  console.log(`qMax index: ${quiz.source.highestIndex}`);
-  console.log(`qSeen length: ${quiz.state.questionsSeen.length}`);
-  console.log(`qSeen array: ${quiz.state.questionsSeen}`);
+  console.group(`Quiz Info`);
+    console.group(`Source Data`);
+      console.log(`qAll: ${quiz.source.totalQuestions}`);
+      console.log(`qMax index: ${quiz.source.highestIndex}`);
+    console.groupEnd();
+    console.group(`State`);
+      console.log(`Current Question: ${quiz.state.currentQuestion}`);
+      console.group(`Questions Seen`);
+        console.log(`Number Seen: ${quiz.state.questionsSeen.length}`);
+        console.log(`Array: [${quiz.state.questionsSeen}]`);
+      console.groupEnd();
+    console.groupEnd();
   console.groupEnd();
 
   res.send();
@@ -29,6 +36,9 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 
   res.send();
 }
+
+
+/* Quiz Functions */
 
 export function getDefault(req: Request, res: Response, next: NextFunction) {
   const quizContent = quizData;
