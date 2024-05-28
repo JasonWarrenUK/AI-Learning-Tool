@@ -7,8 +7,8 @@ router.get("/reset", quizController.stateReset);
 router.get("/state", quizController.stateShow);
 
 
-router.get("/default", quizController.getDefault);
+router.get("/random", quizController.getRandom);
 router.get("/random/:runs", quizController.getRandomRuns);
-router.post('/answer', quizController.answer);
+router.get('/check', quizController.answer);
 
 export default router;
