@@ -12,10 +12,10 @@ export const source: quizSource = {
 
 interface quizState {
     questionsSeen: number[],
-    currentQuestion: number
+    currentIndex: number
 }
 
 export const state: quizState = {
     questionsSeen: [],
-    currentQuestion: 0
+    currentIndex: 0
 }

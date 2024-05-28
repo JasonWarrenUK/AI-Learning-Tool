@@ -12,7 +12,7 @@ export function stateShow(req: Request, res: Response, next: NextFunction) {
       console.log(`qMax index: ${quiz.source.highestIndex}`);
     console.groupEnd();
     console.group(`State`);
-      console.log(`Current Question: ${quiz.state.currentQuestion}`);
+      console.log(`Current Question: ${quiz.state.currentIndex}`);
       console.group(`Questions Seen`);
         console.log(`Number Seen: ${quiz.state.questionsSeen.length}`);
         console.log(`Array: [${quiz.state.questionsSeen}]`);
@@ -71,7 +71,7 @@ export function getRandom(req: Request, res: Response, next: NextFunction) {
     }
 
     quiz.state.questionsSeen.push(qId);
-    quiz.state.currentQuestion = qId;
+    quiz.state.currentIndex = qId;
     const qChosen = quizJSON.questions[qId];
 
     htmlResponse += `<h1>${qChosen.question}</h1>`;
@@ -102,11 +102,17 @@ export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
 }
 
 export function answer(req: Request, res: Response) {
-  // const userAnswer = req.body.option;
-  // const correctAnswer = quizContent.quiz.questions[0].answer;
-  // if (userAnswer === correctAnswer) {
-  //   res.send("Correct!");
-  // } else {
-  //   res.send("Incorrect! The correct answer was " + correctAnswer);
-  // }
+  const answerUser = req.body.option;
+  const answerCorrect = quizData.questions[quiz.state.currentIndex].answer;
+  
+  console.log(`You said: ${answerUser}`);
+  console.log(`Quiz said: ${answerCorrect}`);
+
+  if (answerUser === undefined) {
+    res.send(`You haven't submitted an answer`);
+  } else if (answerUser === answerCorrect) {
+    res.send(`Correct!`);
+  } else {
+    res.send(`Incorrect! The correct answer was ${answerCorrect}`);
+  }
 }
