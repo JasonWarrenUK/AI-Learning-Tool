@@ -13,5 +13,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(routes);
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+  console.log(`[server]: Welcome to Knowledge Kata. Proceed to http://localhost:${port}`);
 });

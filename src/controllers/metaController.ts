@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
+
 export function index(req: Request, res: Response, next: NextFunction) {
 	let htmlResponse: string = ``;
 	htmlResponse += `<h1>QUIZ?</h1>`;

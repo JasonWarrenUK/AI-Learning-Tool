@@ -3,7 +3,8 @@ import quizData from "../repositories/questions.json";
 import { randomInt } from "../utils/numbers";
 import * as quiz from "../states/quiz";
 
-/* Dev Functions */
+
+//* ----- Dev Functions -----
 
 export function stateShow(req: Request, res: Response, next: NextFunction) {
   console.group(`Quiz Info`);
@@ -38,9 +39,9 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 }
 
 
-/* Quiz Functions */
+//* ----- Question Creator -----
+//! ONLY CALL THIS THROUGH ANOTHER FUNCTION
 
-// ! ONLY CALL THIS THROUGH ANOTHER FUNCTION
 function displayQuestion(req: Request, res: Response, next: NextFunction) {
   const quizJSON = quizData;
   let qId: number = -1;
@@ -88,6 +89,9 @@ function displayQuestion(req: Request, res: Response, next: NextFunction) {
   return htmlResponse;
 }
 
+
+//* ----- Questions -----
+
 export function getRandom(req: Request, res: Response, next: NextFunction) {
   let display: string = '';
   display += displayQuestion(req, res, next);
@@ -103,6 +107,9 @@ export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
   }
   res.send(display);
 }
+
+
+//* ----- Answers -----
 
 export function answer(req: Request, res: Response) {
   console.log(req.query);

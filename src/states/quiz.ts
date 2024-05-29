@@ -1,18 +1,24 @@
 import quizData from "../repositories/questions.json";
 
+
+//* ----- Interfaces -----
+
 interface quizSource {
     totalQuestions: number,
     highestIndex: number
 }
 
-export const source: quizSource = {
-    totalQuestions: quizData.questions.length,
-    highestIndex: quizData.questions.length - 1
-}
-
 interface quizState {
     questionsSeen: number[],
     currentIndex: number
+}
+
+
+//* ----- State Trackers -----
+
+export const source: quizSource = {
+    totalQuestions: quizData.questions.length,
+    highestIndex: quizData.questions.length - 1
 }
 
 export const state: quizState = {
