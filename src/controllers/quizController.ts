@@ -48,13 +48,13 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 // }
 
 export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
-  let display: string = header(req, res, next);
+  let display: string = info(req, res, next);
   for (let runs = parseInt(req.params.runs) || 1; runs > 0; runs--) {
     display += displayQuestion(req, res, next);
     runs--;
   }
-  display += footer(req, res, next);
-  
+  display += info(req, res, next);
+
   res.send(display);
 }
 
@@ -94,11 +94,13 @@ export function answer(req: Request, res: Response) {
 
 //* ----- Content Creation -----
 
-function header(req: Request, res: Response, next: NextFunction) {
+function info(req: Request, res: Response, next: NextFunction) {
   let content = ``;
   content += `<hr/>`;
   content += `<pre>Remaining: ${quiz.source.totalQuestions - quiz.state.questionsSeen.length}</pre>`;
   content += `<pre>Questions Seen: ${quiz.state.questionsSeen}</pre>`;
+  content += `<pre>Progress: You've answered ${quiz.progress.userAnswers} of ${quiz.progress.targetAnswers}</pre>`;
+  content += `<pre>You've got ${quiz.progress.userRight} correct & ${quiz.progress.userWrong} incorrect</pre>`;
   content += `<hr/>`;
 
   return content;
