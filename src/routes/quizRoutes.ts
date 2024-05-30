@@ -12,7 +12,7 @@ router.get("/state", quizController.stateShow);
 
 //* ----- User Routes -----
 
-router.get("/random", quizController.getRandom);
+router.get("/random", quizController.getRandomRuns);
 router.get("/random/:runs", quizController.getRandomRuns);
 router.get('/check', quizController.answer);
 
