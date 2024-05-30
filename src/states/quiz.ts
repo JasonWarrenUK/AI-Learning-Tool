@@ -13,6 +13,13 @@ interface quizState {
     currentIndex: number
 }
 
+interface runState {
+    targetAnswers: number,
+    userAnswers: number,
+    userRight: number,
+    userWrong: number
+}
+
 
 //* ----- State Trackers -----
 
@@ -24,4 +31,11 @@ export const source: quizSource = {
 export const state: quizState = {
     questionsSeen: [],
     currentIndex: 0
+}
+
+export const progress: runState = {
+    targetAnswers: 0, //todo make this read the quiz length
+    userAnswers: 0,
+    userRight: 0,
+    userWrong: 0
 }
