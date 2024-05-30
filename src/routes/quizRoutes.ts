@@ -14,7 +14,7 @@ router.get("/state", quizController.stateShow);
 
 router.get("/random", quizController.getRandomRuns);
 router.get("/random/:runs", quizController.getRandomRuns);
-router.get('/check', quizController.answer);
+router.get('/check', quizController.getAnswer);
 
 
 //* ----- Exports -----

@@ -34,7 +34,7 @@ export const state: quizState = {
 }
 
 export const progress: runState = {
-    targetAnswers: 0, //todo make this read the quiz length
+    targetAnswers: quizData.questions.length - 1, //todo make this read the quiz length
     userAnswers: 0,
     userRight: 0,
     userWrong: 0

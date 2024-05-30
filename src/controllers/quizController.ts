@@ -48,69 +48,64 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 // }
 
 export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
-  let display: string = info(req, res, next);
+  let display: string = ``;
+  display += info(req, res);
   for (let runs = parseInt(req.params.runs) || 1; runs > 0; runs--) {
     display += displayQuestion(req, res, next);
     runs--;
   }
-  display += info(req, res, next);
+  display += info(req, res);
 
   res.send(display);
 }
 
-export function answer(req: Request, res: Response) {
-  console.log(req.query);
+export function getAnswer(req: Request, res: Response) {
+  let display: string = ``;
+  display += info(req, res);
 
   const answerUser = req.query.option as string;
   const answerCorrect = quizData.questions[quiz.state.currentIndex].answer;
-  
-  console.log(`You said: ${answerUser}`);
-  console.log(`Quiz said: ${answerCorrect}`);
 
-  let htmlResponse: string = "";
+  quiz.progress.userAnswers++;
 
+  // todo Make this into a switch statement
   if (answerUser === undefined) {
-    htmlResponse += `You haven't submitted an answer`;
+    display += `You haven't submitted an answer`;
+    quiz.progress.userAnswers--;
   } else if (answerUser === answerCorrect) {
-    htmlResponse += `
+    display += `
       You said ${answerUser}...
       <br/>
       You're correct!
     `;
+    quiz.progress.userRight++;
   } else {
-    htmlResponse += `
+    display += `
       You said ${answerUser}...
       <br/>
       Incorrect! The correct answer was ${answerCorrect}
     `;
+    quiz.progress.userWrong++;
   }
 
-  htmlResponse += `<br/>`
-  htmlResponse += `<p><a href="/quiz/random/1">Get a New Question</a></p>`
+  display += `<br/>`
+  display += `<p><a href="/quiz/random/1">Get a New Question</a></p>`
+  
+  display += info(req, res);
 
-  res.send(htmlResponse);
+  res.send(display);
 }
 
 
 //* ----- Content Creation -----
 
-function info(req: Request, res: Response, next: NextFunction) {
+function info(req: Request, res: Response) {
   let content = ``;
   content += `<hr/>`;
   content += `<pre>Remaining: ${quiz.source.totalQuestions - quiz.state.questionsSeen.length}</pre>`;
   content += `<pre>Questions Seen: ${quiz.state.questionsSeen}</pre>`;
   content += `<pre>Progress: You've answered ${quiz.progress.userAnswers} of ${quiz.progress.targetAnswers}</pre>`;
   content += `<pre>You've got ${quiz.progress.userRight} correct & ${quiz.progress.userWrong} incorrect</pre>`;
-  content += `<hr/>`;
-
-  return content;
-}
-
-function footer(req: Request, res: Response, next: NextFunction) {
-  let content = ``;
-  content += `<hr/>`;
-  content += `<pre>Remaining: ${quiz.source.totalQuestions - quiz.state.questionsSeen.length}</pre>`;
-  content += `<pre>Questions Seen: ${quiz.state.questionsSeen}</pre>`;
   content += `<hr/>`;
 
   return content;
@@ -148,3 +143,5 @@ function displayQuestion(req: Request, res: Response, next: NextFunction) {
 
   return htmlResponse;
 }
+
+//todo function displayAnswer() {}
