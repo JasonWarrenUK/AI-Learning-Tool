@@ -48,12 +48,13 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 // }
 
 export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
-  let runs = parseInt(req.params.runs) || 1;
-  let display: string = "";
-  while (runs > 0) {
+  let display: string = header(req, res, next);
+  for (let runs = parseInt(req.params.runs) || 1; runs > 0; runs--) {
     display += displayQuestion(req, res, next);
     runs--;
   }
+  display += footer(req, res, next);
+  
   res.send(display);
 }
 
