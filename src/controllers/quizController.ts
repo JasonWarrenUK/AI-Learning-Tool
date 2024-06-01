@@ -39,7 +39,21 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 }
 
 
-//* ----- Questions & Answers -----
+//* ----- Page Builder ----- 
+
+export function getRoute(req: Request, res: Response) {
+  let display: string = ``;
+  display += info(req, res);
+
+  //todo Route goes here
+  
+  display += info(req, res);
+
+  res.send(display);
+}
+
+
+//* ----- Block Builder -----
 
 // export function getRandom(req: Request, res: Response, next: NextFunction) {
 //   let display: string = '';
@@ -49,19 +63,16 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 
 export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
   let display: string = ``;
-  display += info(req, res);
   for (let runs = parseInt(req.params.runs) || 1; runs > 0; runs--) {
     display += displayQuestion(req, res, next);
     runs--;
   }
-  display += info(req, res);
 
   res.send(display);
 }
 
 export function getAnswer(req: Request, res: Response) {
   let display: string = ``;
-  display += info(req, res);
 
   const answerUser = req.query.option as string;
   const answerCorrect = quizData.questions[quiz.state.currentIndex].answer;
@@ -90,14 +101,11 @@ export function getAnswer(req: Request, res: Response) {
 
   display += `<br/>`
   display += `<p><a href="/quiz/random/1">Get a New Question</a></p>`
-  
-  display += info(req, res);
 
   res.send(display);
 }
 
-
-//* ----- Content Creation -----
+//* ----- Content Builder -----
 
 function info(req: Request, res: Response) {
   let content = ``;

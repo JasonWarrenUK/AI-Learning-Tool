@@ -7,7 +7,7 @@ export function getAllQuestions(
   res: Response,
   next: NextFunction
 ) {
-  for (let i = 0; i <= quiz.source.highestIndex; i++) {
+  for (let i = 0; i <= quiz.state.highestIndex; i++) {
     controller.getRandomRuns;
   }
 }
