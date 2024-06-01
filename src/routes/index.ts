@@ -1,16 +1,16 @@
 import express from 'express';
-import metaRoutes from "./metaRoutes";
-import testRoutes from "./testRoutes";
-import quizRoutes from "./quizRoutes";
+import meta from "./rMeta";
+import dev from "./rDev";
+import quiz from "./rQuiz";
 
 const router = express.Router();
 
 
 //* ----- Routes -----
 
-router.use('/', metaRoutes);
-router.use('/quiz', quizRoutes);
-router.use('/test', testRoutes);
+router.use('/', meta);
+router.use('/quiz', quiz);
+router.use('/dev', dev);
 
 
 //* ----- Exports -----

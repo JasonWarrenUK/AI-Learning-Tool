@@ -1,24 +1,31 @@
+//* ----- User State -----
+
+export interface _dev {
+  devMode: boolean;
+  modeName: string;
+}
+
 //* ----- Quiz State -----
 
-export interface quizState {
-  totalQuestions: number,
-  highestIndex: number,
-  questionsSeen: number[],
-  currentIndex: number
+export interface _source {
+  totalQuestions: number;
+  highestIndex: number;
+  questionsSeen: number[];
+  currentIndex: number;
 }
 
-export interface runState {
-  targetAnswers: number,
-  userAnswers: number,
-  userRight: number,
-  userWrong: number
+export interface _progress {
+  targetAnswers: number;
+  userAnswers: number;
+  userRight: number;
+  userWrong: number;
 }
 
-export interface sessionState {
-  started: boolean,
-  finished: boolean
+export interface _session {
+  started: boolean;
+  finished: boolean;
+  midquestion: boolean;
 }
-
 
 //? ----- Obsolete? -----
 
