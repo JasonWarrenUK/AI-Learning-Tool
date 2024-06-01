@@ -9,8 +9,8 @@ import * as quiz from "../states/quiz";
 export function stateShow(req: Request, res: Response, next: NextFunction) {
   console.group(`Quiz Info`);
     console.group(`Source Data`);
-      console.log(`qAll: ${quiz.source.totalQuestions}`);
-      console.log(`qMax index: ${quiz.source.highestIndex}`);
+      console.log(`qAll: ${quiz.state.totalQuestions}`);
+      console.log(`qMax index: ${quiz.state.highestIndex}`);
     console.groupEnd();
     console.group(`State`);
       console.log(`Current Question: ${quiz.state.currentIndex}`);
@@ -102,7 +102,7 @@ export function getAnswer(req: Request, res: Response) {
 function info(req: Request, res: Response) {
   let content = ``;
   content += `<hr/>`;
-  content += `<pre>Remaining: ${quiz.source.totalQuestions - quiz.state.questionsSeen.length}</pre>`;
+  content += `<pre>Remaining: ${quiz.state.totalQuestions - quiz.state.questionsSeen.length}</pre>`;
   content += `<pre>Questions Seen: ${quiz.state.questionsSeen}</pre>`;
   content += `<pre>Progress: You've answered ${quiz.progress.userAnswers} of ${quiz.progress.targetAnswers}</pre>`;
   content += `<pre>You've got ${quiz.progress.userRight} correct & ${quiz.progress.userWrong} incorrect</pre>`;
@@ -116,11 +116,11 @@ function displayQuestion(req: Request, res: Response, next: NextFunction) {
   let qId: number = -1;
   let htmlResponse: string = "";
 
-  if (quiz.state.questionsSeen.length === quiz.source.highestIndex + 1) {
+  if (quiz.state.questionsSeen.length === quiz.state.highestIndex + 1) {
     htmlResponse += `<pre>Fuck you, no more questions</pre>`;
   } else {
     while (quiz.state.questionsSeen.includes(qId) || qId === -1) {
-      qId = randomInt(0, quiz.source.highestIndex);
+      qId = randomInt(0, quiz.state.highestIndex);
     }
 
     quiz.state.questionsSeen.push(qId);
