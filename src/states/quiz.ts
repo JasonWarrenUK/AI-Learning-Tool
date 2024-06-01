@@ -1,21 +1,5 @@
 import quizData from "../repositories/questions.json";
-
-
-//* ----- Interfaces -----
-
-interface quizState {
-    totalQuestions: number,
-    highestIndex: number,
-    questionsSeen: number[],
-    currentIndex: number
-}
-
-interface runState {
-    targetAnswers: number,
-    userAnswers: number,
-    userRight: number,
-    userWrong: number
-}
+import {quizState, runState} from "../interface";
 
 
 //* ----- State Trackers -----
@@ -28,7 +12,7 @@ export const state: quizState = {
 }
 
 export const progress: runState = {
-    targetAnswers: quizData.questions.length, //todo make this read the chosen length
+    targetAnswers: quizData.questions.length, //todo read run length
     userAnswers: 0,
     userRight: 0,
     userWrong: 0
