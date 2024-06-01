@@ -14,6 +14,11 @@ export interface runState {
   userWrong: number
 }
 
+export interface sessionState {
+  started: boolean,
+  finished: boolean
+}
+
 
 //? ----- Obsolete? -----
 

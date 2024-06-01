@@ -1,5 +1,5 @@
 import quizData from "../repositories/questions.json";
-import {quizState, runState} from "../interface";
+import {quizState, runState, sessionState} from "../interface";
 
 
 //* ----- State Trackers -----
@@ -16,4 +16,9 @@ export const progress: runState = {
     userAnswers: 0,
     userRight: 0,
     userWrong: 0
+}
+
+export const session: sessionState = {
+    started: false,
+    finished: false
 }

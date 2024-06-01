@@ -45,7 +45,16 @@ export function getRoute(req: Request, res: Response) {
   let display: string = ``;
   display += info(req, res);
 
-  //todo Route goes here
+  /* todo
+  if (quiz is finished) {
+    show results
+  } else if (quiz has started) {
+    get next question
+  } else if (quiz hasn't started) {
+    start a quiz
+  }
+  */
+
   
   display += info(req, res);
 
