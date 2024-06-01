@@ -9,8 +9,8 @@ const router = express.Router();
 //* ----- Routes -----
 
 router.use('/', metaRoutes);
-router.use('/test', testRoutes);
 router.use('/quiz', quizRoutes);
+router.use('/test', testRoutes);
 
 
 //* ----- Exports -----
