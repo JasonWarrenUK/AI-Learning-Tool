@@ -64,7 +64,7 @@ export function getRoute(req: Request, res: Response) {
 export function getRandomRuns(req: Request, res: Response, next: NextFunction) {
   let display: string = ``;
   for (let runs = parseInt(req.params.runs) || 1; runs > 0; runs--) {
-    display += displayQuestion(req, res, next);
+    display += question(req, res, next);
     runs--;
   }
 
@@ -119,7 +119,7 @@ function info(req: Request, res: Response) {
   return content;
 }
 
-function displayQuestion(req: Request, res: Response, next: NextFunction) {
+function question(req: Request, res: Response, next: NextFunction) {
   const quizJSON = quizData;
   let qId: number = -1;
   let htmlResponse: string = "";
