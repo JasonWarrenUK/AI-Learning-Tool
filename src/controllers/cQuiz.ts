@@ -5,6 +5,14 @@ import * as state from "../states/quiz";
 import * as dev from "./cDev";
 
 
+//* ----- Declarations -----
+
+
+const started = state.session.started;
+const finished = state.session.finished;
+const active = state.session.midquestion;
+
+
 //* ----- Page Builder -----
 
 export function buildQuiz(req: Request, res: Response) {
@@ -25,15 +33,14 @@ export function buildQuiz(req: Request, res: Response) {
 
 export function getRoute(req: Request, res: Response) {
   let display = ``;
-
-  if (state.session.started && state.session.finished) {
+  
+  if (started && !active && finished) { 
     display += getResults(req, res);
-  } else if (state.session.started && !state.session.finished && !state.session.midquestion) {
+  } else if (started && active && !finished) {
     display += getAnswer(req, res);
-  }
-  else if (state.session.started && !state.session.finished && !state.session.midquestion) {
+  } else if (started && !active && !finished) {
     display += getRandomRuns(req, res);
-  } else if (!state.session.started && !state.session.finished) {
+  } else if (!started && !active && !finished) {
     display += start(req, res);
   } else {
     display += error(req, res);
@@ -46,30 +53,25 @@ export function getRoute(req: Request, res: Response) {
 //* ----- Block Builder -----
 
 export function getAnswer(req: Request, res: Response) {
-  let display: string = ``;
   const answerUser = req.query.option as string;
   const answerCorrect = quizData.questions[state.source.currentIndex].answer;
-  state.session.midquestion = false;
+  
+  let display: string = ``;
 
   // todo Make this into a switch statement
   if (answerUser === undefined) {
     display += `You haven't submitted an answer`;
   } else if (answerUser === answerCorrect) {
     state.progress.userAnswers++;
-    display += `You said ${answerUser}...
-      <br/>
-    You're correct!`;
     state.progress.userRight++;
+    state.session.midquestion = false;
+    display += `You said ${answerUser}...<br/>You're correct!`;
   } else {
     state.progress.userAnswers++;
-    display += `You said ${answerUser}...
-      <br/>
-    Incorrect! The correct answer was ${answerCorrect}`;
     state.progress.userWrong++;
+    state.session.midquestion = false;
+    display += `You said ${answerUser}...<br/>Incorrect! The correct answer was ${answerCorrect}`;
   }
-
-  display += `<br/>`
-  display += `<p><a href="/quiz/">Get a New Question</a></p>`
 
   return display;
 }
