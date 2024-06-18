@@ -8,4 +8,6 @@ router.get("/random", quiz.getRandomRuns);
 router.get("/random/:runs", quiz.getRandomRuns);
 router.get("/check", quiz.getAnswer);
 
+router.post("/", quiz.setLength);
+
 export default router;

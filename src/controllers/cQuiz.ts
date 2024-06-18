@@ -61,6 +61,11 @@ export function getRoute(req: Request, res: Response) {
   return display;
 }
 
+export function setLength(req: Request, res: Response) {
+  quizState.progress.targetAnswers = req.body.quizLength;
+  console.log(`Quiz Length: ${quizState.progress.targetAnswers}`);
+}
+
 
 //h1 Assemblers
 
@@ -135,7 +140,12 @@ function start(req: Request, res: Response): string {
   quizState.session.started = true;
 
   let htmlResponse: string = `LET'S GO!!!`;
-  htmlResponse += getRandomRuns(req, res);
+  htmlResponse += `<form action="/quiz/" method="POST">
+    <p>How many questions would you like to answer?</p>
+    <label for="quizLength">Questions</label>
+    <input type="number" id="quizLength" name="quizLength" min="1" max="30" required>
+    <button type="submit">Submit</button>
+  </form>`;
 
   return htmlResponse;
 }
@@ -144,14 +154,14 @@ function start(req: Request, res: Response): string {
 function questionBlock(req: Request, res: Response): string {
   const qDoneArr: number[] = quizState.source.questionsSeen;
   const qDone: number = quizState.source.questionsSeen.length;
-  const qAll: number = quizState.source.highestIndex + 1;
+  const qAll: number = quizState.progress.targetAnswers;
 
   quizState.session.midquestion = true;
 
   let display: string = ``;
 
   display += `<hr/>`;
-  display += qDone == qAll ? endQuiz() : displayQuestion(qAll, qDoneArr);
+  display += qDone >= qAll ? endQuiz() : displayQuestion(qAll, qDoneArr);
   display += `<hr/>`;
 
   return display

@@ -3,4 +3,30 @@ html
     head 
         title Knowledge Kata
     body 
-        h1 Knowledge Kata
+        header
+            h1 Knowledge Kata
+        nav
+            h2 Links
+            ul
+                li
+                    a href="/quiz/">Quiz
+            </ul>
+            
+            <h2>Dev Quiz Routes</h2>
+
+            <ul>
+                <li><a href="/quiz/random">Get Question (Default)</a></li>
+                <li><a href="/quiz/random/1">Get Question (1)</a></li>
+                <li><a href="/quiz/random/5">Get Question (5)</a></li>
+                <li><a href="/quiz/random/10">Get Question (10)</a></li>
+                <li><a href="/quiz/check">Check Answer</a></li>
+            </ul>
+
+            <h2>Debug Routes</h2>
+
+            <ul>
+                <li><a href="/test/runAll">Run All Questions</a></li>
+                <li><a href="/quiz/reset">Reset Run State</a></li>
+                <li><a href="/quiz/state">Console Log Run State</a></li>
+            </ul>
+        <hr/>`;
