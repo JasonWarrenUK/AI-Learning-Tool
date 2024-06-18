@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as quiz from "./cQuiz";
-import * as state from "../states/quiz";
+import * as quizState from "../states/quiz";
+import * as appState from "../states/app";
 
 
 
@@ -19,11 +20,11 @@ export function devOpts(req: Request, res: Response): string {
 
 // todo: How to make a button that calls a function without calling a route?
 export function modeOpts(req: Request, res: Response): string {
-  state.dev.devMode ? state.dev.modeName = `Dev Mode` : state.dev.modeName = `User Mode`;
+  appState.dev.devMode ? appState.dev.modeName = `Dev Mode` : appState.dev.modeName = `User Mode`;
   let htmlResponse: string = ``;
 
   htmlResponse += `<hr/>`;
-  htmlResponse += `You're in ${state.dev.modeName}`;
+  htmlResponse += `You're in ${appState.dev.modeName}`;
   htmlResponse += `<ul>
     <li><a href="/dev/toggle">Change Mode</a></li> 
   </ul>`;
@@ -39,7 +40,7 @@ export function getAllQuestions(
   res: Response,
   next: NextFunction
 ) {
-  for (let i = 0; i <= state.source.highestIndex; i++) {
+  for (let i = 0; i <= quizState.source.highestIndex; i++) {
     quiz.getRandomRuns;
   }
 }
@@ -47,14 +48,14 @@ export function getAllQuestions(
 export function stateShow(req: Request, res: Response, next: NextFunction) {
   console.group(`Quiz Info`);
     console.group(`Source Data`);
-      console.log(`qAll: ${state.source.totalQuestions}`);
-      console.log(`qMax index: ${state.source.highestIndex}`);
+      console.log(`qAll: ${quizState.source.totalQuestions}`);
+      console.log(`qMax index: ${quizState.source.highestIndex}`);
     console.groupEnd();
     console.group(`State`);
-      console.log(`Current Question: ${state.source.currentIndex}`);
+      console.log(`Current Question: ${quizState.source.currentIndex}`);
       console.group(`Questions Seen`);
-        console.log(`Number Seen: ${state.source.questionsSeen.length}`);
-        console.log(`Array: [${state.source.questionsSeen}]`);
+        console.log(`Number Seen: ${quizState.source.questionsSeen.length}`);
+        console.log(`Array: [${quizState.source.questionsSeen}]`);
       console.groupEnd();
     console.groupEnd();
   console.groupEnd();
@@ -66,13 +67,13 @@ export function stateShow(req: Request, res: Response, next: NextFunction) {
 
 export function stateReset(req: Request, res: Response, next: NextFunction) {
   console.group(`Reset State`);
-  console.log(`qSeen length: ${state.source.questionsSeen.length}`);
+  console.log(`qSeen length: ${quizState.source.questionsSeen.length}`);
 
-  while (state.source.questionsSeen.length > 0) {
-    state.source.questionsSeen.pop;
+  while (quizState.source.questionsSeen.length > 0) {
+    quizState.source.questionsSeen.pop;
   }
 
-  console.log(`qSeen length: ${state.source.questionsSeen.length}`);
+  console.log(`qSeen length: ${quizState.source.questionsSeen.length}`);
   console.groupEnd();
 
   res.send();
@@ -80,7 +81,7 @@ export function stateReset(req: Request, res: Response, next: NextFunction) {
 
 // todo: How do I make this do the thing then stop?
 export function toggleMode(req: Request, res: Response, next: NextFunction) {
-  state.dev.devMode ? state.dev.devMode = false : state.dev.devMode = true;
+  appState.dev.devMode ? appState.dev.devMode = false : appState.dev.devMode = true;
   res.send();
 }
 

@@ -1,13 +1,8 @@
 import quizData from "../repositories/questions.json";
-import {_dev, _source, _progress, _session} from "../interface";
+import {_source, _progress, _session} from "../interface";
 
 
 //* ----- State Trackers -----
-
-export const dev: _dev = {
-    devMode: true,
-    modeName: ``
-}
 
 export const source: _source = {
     totalQuestions: quizData.questions.length,

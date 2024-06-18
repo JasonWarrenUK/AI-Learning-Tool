@@ -1,25 +1,21 @@
+//h1 Setup
+//h2 Imports
 import { Request, Response } from "express";
 import quizData from "../repositories/questions.json";
 import { randomInt } from "../utils/numbers";
-import * as state from "../states/quiz";
+import * as quizState from "../states/quiz";
+import * as appState from "../states/app"
 import * as dev from "./cDev";
 
+//h2 Declarations
 
-//* ----- Declarations -----
-
-
-const started = state.session.started;
-const finished = state.session.finished;
-const active = state.session.midquestion;
-
-
-//* ----- Page Builder -----
-
+//h1 Page Builder
 export function buildQuiz(req: Request, res: Response) {
-  let display: string = ``;
-  
-  display += dev.modeOpts(req, res);
-  if (state.dev.devMode) { display += dev.devOpts(req, res) };
+  let display: string = dev.modeOpts(req, res);
+
+  if (appState.dev.devMode) {
+    display += dev.devOpts(req, res);
+  };
 
   display += info(req, res);
   display += getRoute(req, res);
@@ -28,33 +24,60 @@ export function buildQuiz(req: Request, res: Response) {
   res.send(display);
 }
 
-
-//* ----- Block Chooser -----
-
 export function getRoute(req: Request, res: Response) {
+  let started: boolean = quizState.session.started;
+  let active: boolean = quizState.session.midquestion;
+  let finished: boolean = quizState.session.finished;
+
   let display = ``;
-  
+
+  console.group(`Running getRoute()`);
+
+  console.table([
+    {flag: `Started`, state: `${started}`},
+    {flag: `Active`, state: `${active}`},
+    {flag: `Finished`, state: `${finished}`},
+  ]);
+
   if (started && !active && finished) { 
+    console.log(`Calling getResults()`);
     display += getResults(req, res);
   } else if (started && active && !finished) {
+    console.log(`Calling getAnswer()`);
     display += getAnswer(req, res);
   } else if (started && !active && !finished) {
+    console.log(`Calling getRandomRuns()`);
     display += getRandomRuns(req, res);
   } else if (!started && !active && !finished) {
+    console.log(`Calling start()`);
     display += start(req, res);
   } else {
+    console.log(`Calling error()`);
     display += error(req, res);
   }
+
+  console.groupEnd();
 
   return display;
 }
 
 
-//* ----- Block Builder -----
+//h1 Assemblers
+
+export function getRandomRuns(req: Request, res: Response) {
+  let display: string = ``;
+
+  for (let runs = parseInt(req.params.runs) || 1; runs > 0; runs--) {
+    display += questionBlock(req, res);
+    runs--;
+  }
+
+  return display;
+}
 
 export function getAnswer(req: Request, res: Response) {
   const answerUser = req.query.option as string;
-  const answerCorrect = quizData.questions[state.source.currentIndex].answer;
+  const answerCorrect = quizData.questions[quizState.source.currentIndex].answer;
   
   let display: string = ``;
 
@@ -62,27 +85,18 @@ export function getAnswer(req: Request, res: Response) {
   if (answerUser === undefined) {
     display += `You haven't submitted an answer`;
   } else if (answerUser === answerCorrect) {
-    state.progress.userAnswers++;
-    state.progress.userRight++;
-    state.session.midquestion = false;
+    quizState.progress.userAnswers++;
+    quizState.progress.userRight++;
+    quizState.session.midquestion = false;
     display += `You said ${answerUser}...<br/>You're correct!`;
   } else {
-    state.progress.userAnswers++;
-    state.progress.userWrong++;
-    state.session.midquestion = false;
+    quizState.progress.userAnswers++;
+    quizState.progress.userWrong++;
+    quizState.session.midquestion = false;
     display += `You said ${answerUser}...<br/>Incorrect! The correct answer was ${answerCorrect}`;
   }
 
-  return display;
-}
-
-export function getRandomRuns(req: Request, res: Response) {
-  let display: string = ``;
-
-  for (let runs = parseInt(req.params.runs) || 1; runs > 0; runs--) {
-    display += question(req, res);
-    runs--;
-  }
+  display += `<p><a href="/quiz/">Next Question</a></p>`
 
   return display;
 }
@@ -90,69 +104,96 @@ export function getRandomRuns(req: Request, res: Response) {
 export function getResults(req: Request, res: Response) {
   let display: string = ``;
 
-  display += `<p>Results</p>`
+  display += `<p>Results</p>`;
 
   return display;
 }
 
-//* ----- Content Builder -----
 
-function error(req: Request, res: Response): string {
+//h1 Exported Content Blocks
+export function error(req: Request, res: Response): string {
   return `<pre>Error</pre>`;
 }
 
-function info(req: Request, res: Response): string {
+export function info(req: Request, res: Response): string {
   let content = ``;
 
   content += `<hr/>`;
   content += `<pre>
-    Remaining: ${state.source.totalQuestions - state.source.questionsSeen.length}
-    Questions Seen: ${state.source.questionsSeen}
-    Progress: You've answered ${state.progress.userAnswers} of ${state.progress.targetAnswers}
-    You've got ${state.progress.userRight} correct & ${state.progress.userWrong} incorrect
+    Remaining: ${quizState.source.totalQuestions - quizState.source.questionsSeen.length}
+    Questions IDs Seen: ${quizState.source.questionsSeen}
+    Progress: You've answered ${quizState.progress.userAnswers} of ${quizState.progress.targetAnswers}
+    You've got ${quizState.progress.userRight} correct & ${quizState.progress.userWrong} incorrect
   </pre>`;
   content += `<hr/>`;
 
   return content;
 }
 
-function question(req: Request, res: Response): string {
-  const quizJSON = quizData;
-  let qId: number = -1;
-  let htmlResponse: string = "";
-  state.session.midquestion = true;
+//h1 Non-Exported Content Blocks
+function start(req: Request, res: Response): string {
+  quizState.session.started = true;
 
-  if (state.source.questionsSeen.length === state.source.highestIndex + 1) {
-    htmlResponse += `<pre>Fuck you, no more questions</pre>`;
-  } else {
-    while (state.source.questionsSeen.includes(qId) || qId === -1) {
-      qId = randomInt(0, state.source.highestIndex);
-    }
-
-    state.source.questionsSeen.push(qId);
-    state.source.currentIndex = qId;
-    const qChosen = quizJSON.questions[qId];
-
-    htmlResponse += `<p>${qChosen.question}</p>`;
-
-    htmlResponse += `<form action="/quiz/" method="get">`;
-    qChosen.options.forEach((option) => {
-      htmlResponse += `<input type="radio" id="${option}" name="option" value="${option}">              
-      <label for="${option}">${option}</label><br/>`;
-    });
-    htmlResponse += `<button type="submit">Submit Answer</button>`;
-    htmlResponse += `</form>`;
-  }
+  let htmlResponse: string = `LET'S GO!!!`;
+  htmlResponse += getRandomRuns(req, res);
 
   return htmlResponse;
 }
 
-function start(req: Request, res: Response): string {
-  state.session.started = true;
+//h2 Display Question
+function questionBlock(req: Request, res: Response): string {
+  const qDoneArr: number[] = quizState.source.questionsSeen;
+  const qDone: number = quizState.source.questionsSeen.length;
+  const qAll: number = quizState.source.highestIndex + 1;
 
+  quizState.session.midquestion = true;
+
+  let display: string = ``;
+
+  display += `<hr/>`;
+  display += qDone == qAll ? endQuiz() : displayQuestion(qAll, qDoneArr);
+  display += `<hr/>`;
+
+  return display
+}
+
+function displayQuestion(qAll, qDoneArr): string {
+  const quizJSON = quizData;
+  let qId: number = -1;
   let htmlResponse: string = ``;
-  htmlResponse += `LET'S GO!!!`;
-  htmlResponse += getRandomRuns(req, res);
+
+  while (qDoneArr.includes(qId) || qId === -1) {
+    qId = randomInt(0, qAll - 1)
+  };
+
+  qDoneArr.push(qId);
+  quizState.source.currentIndex = qId;
+  const qChosen = quizJSON.questions[qId];
+
+  htmlResponse += `<p>${qChosen.question}</p>`;
+  htmlResponse += `<form action="/quiz/" method = "get" >`;
+  htmlResponse += createAnswers(qChosen);
+  htmlResponse += `<button type="submit">Submit Answer</button>`;
+  htmlResponse += `</form>`;
+
+  return htmlResponse;
+}
+
+function endQuiz(): string {
+  return `<pre>Fuck you, no more questions</pre>`;
+}
+
+function createAnswers(qChosen): string {
+  let htmlResponse = ``;
+
+  qChosen.options.forEach(
+    (option) => {
+      htmlResponse += `
+        <input type="radio" id="${option}" name="option" value="${option}">              
+        <label for="${option}">${option}</label><br/>
+      `;
+    }
+  );
 
   return htmlResponse;
 }
